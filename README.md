@@ -176,6 +176,72 @@ Refer to [UPC++ Installation](docs/upcxx.md).
 
 ## Working with Saddlebag
 
+##### Setting up Saddlebag
+
+While the modules are loaded for UPC++, clone the Saddlebag repository. Compile the Saddlebag framework using the installed UPC++ version on the cluster. You can also set the environment variable for convenience.
+
+```bash
+cd /desired/saddlebag/directory
+make
+```
+
+For instance:
+
+```bash
+cd ~
+git clone https://github.com/uit-agc/Saddlebag.git
+export SADDLEBAG_INSTALL=~/saddlebag
+cd $SADDLEBAG_INSTALL
+make
+$UPCXX_INSTALL/bin/upcxx-run -np 16 ./bin/examples/pagerank
+GASNET_PSHM_NODES=4 ./bin/examples/pagerank
+```
+
+##### Testing the Installation
+
+Run the `hello-world` program from UPC++ to make sure UPC++ is properly set up.
+
+```bash
+cd $UPCXX_INSTALL/example/prog-guide
+$UPCXX_INSTALL/bin/upcxx-run -np 16 ./hello-world
+```
+
+Run some of the Saddlebag example programs.
+
+```bash
+cd $SADDLEBAG_INSTALL/bin/examples
+UPCXX_INSTALL/bin/upcxx-run -np 16 ./pagerank
+```
+
+##### Testing the Installation with Multiple Nodes
+
+In order to run workloads on a cluster, you need allocated CPU hours on a specific account name. To find your account name:  
+
+```bash
+cost
+```
+
+Run programs with the `salloc` command. Memory usage and max compute time must be provided:
+
+```bash
+cd $UPCXX_SOURCE/example/prog-guide
+make
+salloc --nodes=2 --mem-per-cpu=8000 --time=01:00:00 --account=ACCNAME \
+$UPCXX_INSTALL/bin/upcxx-run -np 4 ./hello-world
+salloc --nodes=16 --mem-per-cpu=8000 --time=01:00:00 --account=$ACCNAME \
+$UPCXX_INSTALL/bin/upcxx-run -np 16 ./hello-world
+```
+
+Similarly, run one of the example programs from Saddlebag with the `salloc` command.
+
+```bash
+cd $SADDLEBAG_INSTALL/bin/examples
+salloc --nodes=16 --mem-per-cpu=8000 --time=01:00:00 --account=ACCNAME \
+$UPCXX_INSTALL/bin/upcxx-run -np 16 ./pagerank
+```
+
+[Lmod]: https://lmod.readthedocs.io
+
 
 ## Further Reading
 
