@@ -59,8 +59,8 @@ Download the source or clone the repository. You can use either of the following
 - <https://github.com/uit-agc/Saddlebag> 
 
 ```bash
-cd /home/shared/Saddlebag
-git clone https://agc-git.cs.uit.no/amin/saddlebags.git
+cd <your path>/Saddlebag
+git clone https://github.com/uit-agc/Saddlebag.git
 cd saddlebags
 make
 ```
@@ -134,7 +134,7 @@ You must have UPC++ installed. You must have following environment variables in 
 
 ```bash
 # UPC++
-export UPCXX_INSTALL=/home/shared/Saddlebag/install/upcxx-2019.3.0
+export UPCXX_INSTALL=<your path>/Saddlebag/install/upcxx-2019.3.0
 export GASNET_PHYSMEM_MAX='8000MB'
 export GASNET_PSHM_NODES=4
 export UPCXX_GASNET_CONDUIT=smp
@@ -176,91 +176,6 @@ Refer to [UPC++ Installation](docs/upcxx.md).
 
 ## Working with Saddlebag
 
-##### Setting up Saddlebag on Abel
-
-While the modules are loaded for UPC++, clone the Saddlebag repository. Compile the Saddlebag framework using the installed UPC++ version on the cluster. You can also set the environment variable for convenience.
-
-```bash
-cd /desired/saddlebag/directory
-make
-```
-
-For instance:
-
-```bash
-cd ~
-git clone git@bitbucket.org:aminmkhan/saddlebag.git
-export SADDLEBAG_INSTALL=~/saddlebag
-cd $SADDLEBAG_INSTALL
-make
-$UPCXX_INSTALL/bin/upcxx-run -np 16 ./bin/examples/pagerank
-GASNET_PSHM_NODES=4 ./bin/examples/pagerank
-```
-
-##### Testing the Installation on Abel
-
-Run the `hello-world` program from UPC++ to make sure UPC++ is properly set up.
-
-```bash
-cd $UPCXX_INSTALL/example/prog-guide
-$UPCXX_INSTALL/bin/upcxx-run -np 16 ./hello-world
-```
-
-Run some of the Saddlebag example programs.
-
-```bash
-cd $SADDLEBAG_INSTALL/bin/examples
-UPCXX_INSTALL/bin/upcxx-run -np 16 ./pagerank
-```
-
-##### Testing the Installation on Abel with Multiple Nodes
-
-In order to run workloads on Abel, you need allocated CPU hours on a specific account name. To find your account name:  
-
-```bash
-cost
-```
-
-Run programs with the `salloc` command. Memory usage and max compute time must be provided:
-
-```bash
-cd $UPCXX_SOURCE/example/prog-guide
-make
-salloc --nodes=2 --mem-per-cpu=8000 --time=01:00:00 --account=ACCNAME \
-$UPCXX_INSTALL/bin/upcxx-run -np 4 ./hello-world
-salloc --nodes=16 --mem-per-cpu=8000 --time=01:00:00 --account=$ACCNAME \
-$UPCXX_INSTALL/bin/upcxx-run -np 16 ./hello-world
-```
-
-Similarly, run one of the example programs from Saddlebag with the `salloc` command.
-
-```bash
-cd $SADDLEBAG_INSTALL/bin/examples
-salloc --nodes=16 --mem-per-cpu=8000 --time=01:00:00 --account=ACCNAME \
-$UPCXX_INSTALL/bin/upcxx-run -np 16 ./pagerank
-```
-
-[Lmod]: https://lmod.readthedocs.io
-
-#### Installation and Usage on Stallo Cluster at UiT, Norway
-
-Stallo uses the same module system as Abel, but provides different default modules and names. Here, `mpicxx` can be set as the default C++ compiler during installation:
-
-```bash
-module load OpenMPI/2.1.1-GCC-6.4.0-2.28
-CC=mpicc CXX=mpicxx ./install /desired/installation/directory
-export $UPCXX_INSTALL=/desired/installation/directory
-```
-
-Running programs on Stallo is similar as on Abel, but less information is required to queue workloads.  
-
-```bash
-cd $UPCXX_SOURCE/example/prog-guide
-make
-salloc --nodes=16 $UPCXX_INSTALL/bin/upcxx-run -np 16 ./hello-world
-```
-
-Information about memory usage per node is not required, but should be added as an argument, like on Abel, if `GASNET_PHYSMEM_MAX` is set above 1 GB.
 
 ## Further Reading
 
