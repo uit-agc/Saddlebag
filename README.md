@@ -56,8 +56,7 @@ Code is organized into the following directories:
 
 Download the source or clone the repository. You can use either of the following repositories:
 
-- <https://agc-git.cs.uit.no/amin/saddlebags>
-- <https://github.com/uit-agc/saddlebags> (_Will be available publicly later._)
+- <https://github.com/uit-agc/Saddlebag> 
 
 ```bash
 cd /home/shared/Saddlebag
