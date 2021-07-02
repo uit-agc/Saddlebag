@@ -49,7 +49,6 @@ class Vertex : public saddlebags::Item<Tk, Ok, Mt> {
     std::vector<int> links;
 
     void add_link(int new_link) {
-        // TODO: Minor, check just in case this link already exists
         this->links.emplace_back(new_link);
     }
 
@@ -59,8 +58,6 @@ class Vertex : public saddlebags::Item<Tk, Ok, Mt> {
                 float pr = page_rank / ((float) links.size());
                 if (pr > 0 || true) {
                     this->push(VERTEX_TABLE, it, pr);
-                    // TODO: Investigate zero values in PageRank
-                    // TODO: Optimize by skipping messages with zeros
                 }
 
                 if (pr <= 0 && SADDLEBAG_DEBUG > 5) {
@@ -71,18 +68,14 @@ class Vertex : public saddlebags::Item<Tk, Ok, Mt> {
                 }
             }
         }
-        // TODO: Investigate why number of received messages different between iterations
     }
 
     void on_push_recv(Mt val) override {
         new_page_rank +=  0.15 * page_rank + 0.85 * val;
-        // new_page_rank += val;
-        // TODO: Update calculation, but has no effect on performance
     }
 
     void before_work() override {
         if (new_page_rank > 0) {
-            // TODO: Investigate zero values in PageRank
             page_rank = new_page_rank;
         }
 
@@ -137,7 +130,6 @@ std::string get_max_pagerank(WorkerPageRank *worker, int iter = 0, bool detailed
     float max_pr = 0;
     int max_pr_id = 0;
 
-    // TODO: Iterate over all vertex objects
     return "";
     for (auto vertex : worker->iterate_table<Vertex>(VERTEX_TABLE)) {
         int vertex_id = vertex.first;
@@ -167,8 +159,7 @@ int get_vertex_count(WorkerPageRank *worker){
 
     int total_vertex = 0;
 
-    // TODO: Iterate over all vertex objects
-    return 0;
+  return 0;
     for (auto vertex : worker->iterate_table<Vertex>(VERTEX_TABLE)) {
         int vertex_id = vertex.first;
         auto links = vertex.second->links;
@@ -196,7 +187,6 @@ std::string export_vectors(WorkerPageRank *worker, std::string out_file_path = "
         return "";
     }
 
-    // TODO: Iterate through all vertex objects
     return "";
     for (auto vertex : worker->iterate_table<Vertex>(VERTEX_TABLE)) {
 
