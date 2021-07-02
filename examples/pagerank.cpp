@@ -105,6 +105,10 @@ template<class Tk, class Ok, class Mt>
 struct is_definitely_trivially_serializable<Vertex<Tk, Ok, Mt>> : std::true_type {};
 }
 
+/*********************************************************************************************
+  Below are miscellaneous functions
+**********************************************************************************************/
+
 /*
  * Get File Name from a Path with or without extension
  */
